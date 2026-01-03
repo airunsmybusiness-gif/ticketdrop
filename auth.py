@@ -1,5 +1,6 @@
 """
 TicketDrop 2.0 - Authentication
+Uses Streamlit secrets for credentials
 """
 
 import streamlit as st
@@ -12,7 +13,8 @@ SCOPES = [
 ]
 
 def get_google_client():
-    creds = Credentials.from_service_account_file('service_account.json', scopes=SCOPES)
+    creds_dict = dict(st.secrets["gcp_service_account"])
+    creds = Credentials.from_service_account_info(creds_dict, scopes=SCOPES)
     return gspread.authorize(creds)
 
 def get_spreadsheet():
