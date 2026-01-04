@@ -28,7 +28,11 @@ st.markdown("""
 SCOPES = ["https://www.googleapis.com/auth/spreadsheets", "https://www.googleapis.com/auth/drive"]
 
 def get_client():
-    creds = Credentials.from_service_account_file('service_account.json', scopes=SCOPES)
+    if hasattr(st, 'secrets') and 'gcp_service_account' in st.secrets:
+        creds_dict = dict(st.secrets["gcp_service_account"])
+        creds = Credentials.from_service_account_info(creds_dict, scopes=SCOPES)
+    else:
+        creds = Credentials.from_service_account_file('service_account.json', scopes=SCOPES)
     return gspread.authorize(creds)
 
 def load_drivers():

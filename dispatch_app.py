@@ -28,7 +28,7 @@ SCOPES = [
 @st.cache_resource
 def get_google_client():
     """Connect to Google Sheets."""
-    creds = Credentials.from_service_account_file('service_account.json', scopes=SCOPES)
+    creds = Credentials.from_service_account_info(dict(st.secrets["gcp_service_account"]), scopes=SCOPES) if hasattr(st, "secrets") and "gcp_service_account" in st.secrets else Credentials.from_service_account_file("service_account.json", scopes=SCOPES)
     return gspread.authorize(creds)
 
 @st.cache_data(ttl=60)
