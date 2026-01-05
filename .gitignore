@@ -1,5 +1,6 @@
 service_account.json
-.env
 *.json
+.env
 __pycache__/
 .tmp/
+*.backup
